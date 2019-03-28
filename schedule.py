@@ -21,15 +21,17 @@ base_schedule = {"Week 1": [],
                              ("Matt", "Logan"), ("Thomas", "Nick")]}
 
 
+# Adds the last game to the week
 def add_game(schedule, week):
     teams = d1 + d2
-    for game in schedule[week]:
-        home, away = game
+    for g in schedule[week]:
+        home, away = g
         teams.remove(home)
         teams.remove(away)
     schedule[week].append((teams[0], teams[1]))
 
 
+# Checks if the teams are in the same division
 def in_division(name1, name2):
     if name1 in d1:
         if name2 in d1:
@@ -40,28 +42,25 @@ def in_division(name1, name2):
     return False
 
 
-def check_rivalry(name1, name2):
-    for riv in rivalry:
-        if name1 in riv and name2 in riv:
-            return True
-
-
+# Counts the number of games already scheduled for teams
 def check_games(schedule, name1, name2):
     cnt = 0
     for week in schedule.keys():
-        for game in schedule[week]:
-            if name1 in game and name2 in game:
+        for g in schedule[week]:
+            if name1 in g and name2 in g:
                 cnt += 1
     return cnt
 
 
+# check if either team plays in a week
 def check_week(week, name1, name2):
-    for game in week:
-        if name1 in game or name2 in game:
+    for g in week:
+        if name1 in g or name2 in g:
             return True
     return False
 
 
+# schedules a game
 def game(schedule, name, opp, played):
     temp_weeks = weeks[:]
     while check_games(schedule, name, opp) < played:
