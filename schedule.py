@@ -63,11 +63,14 @@ def check_week(week, name1, name2):
 # schedules a game
 def game(schedule, name, opp, played):
     temp_weeks = weeks[:]
-    while check_games(schedule, name, opp) < played:
+    checked = False
+    while checked or check_games(schedule, name, opp) < played:
+        checked = True
         c = random.choice(temp_weeks)
         if check_week(schedule[c], name, opp):
             temp_weeks.remove(c)
         else:
+            checked = False
             schedule[c].append((name, opp))
             temp_weeks.remove(c)
             if len(schedule[c]) is 4:
@@ -86,6 +89,8 @@ def pretty_print(schedule):
 
 def run():
     schedule = copy.deepcopy(base_schedule)
+    random.shuffle(d1)
+    random.shuffle(d2)
     for name in d1:
         for opp in d1:
             if not(name is opp):
@@ -99,7 +104,6 @@ def run():
         for opp in d1:
             game(schedule, name, opp, 1)
     pretty_print(schedule)
-
 
 while True:
     try:
